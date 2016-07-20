@@ -1,4 +1,4 @@
-# setphpfwperms
+# setphpfwperms.sh
 Script meant to lessen the pain of setting permissions after a new PHP project from popular frameworks is created. 
 Intended for those who don't like to `chmod -R 777 something`
 No worries about who is the HTTPD user, the script will find it for you.
