@@ -3,6 +3,13 @@ Script meant to lessen the pain of setting permissions after a new PHP project f
 Intended for those who don't like to `chmod -R 777 something`
 No worries about who is the HTTPD user, the script will find it for you.
 
+## Can be used for these frameworks / applications
+ * Laravel 5
+ * Fat Free Framework (f3)
+ * Cake 3
+ * Wordpress
+ * Prestashop
+
 ## Known issues
 This script does not work in Mac OS X as far as I know, since it implements ACLs in a different way. 
 
