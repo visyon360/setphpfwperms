@@ -11,7 +11,7 @@ No worries about who is the HTTPD user, the script will find it for you.
  * Prestashop
 
 ## Known issues
-This script does not work in Mac OS X as far as I know, since it implements ACLs in a different way. 
+No issues has been reported at this moment.
 
 ## Requirements
 You must have `setfacl` command installed and available in your OS.
