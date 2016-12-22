@@ -50,17 +50,23 @@ usage()
 version()
 {
 	#Show Version
-	echo "v 1.0.1"
+	echo "v 1.0.2"
 }
 
 set_acl_laravel5()
 {
 	echo "Setting up permisions for ${GREEN}Laravel 5${RESET}..."
-	if [ -d storage -a -d bootstrap/cache ]; then 	
-		setfacl -R -m u:${HTTPDUSER}:rwx storage
-		setfacl -R -d -m u:${HTTPDUSER}:rwx storage
-		setfacl -R -m u:${HTTPDUSER}:rwx bootstrap/cache
-		setfacl -R -d -m u:${HTTPDUSER}:rwx bootstrap/cache
+	if [ -d storage -a -d bootstrap/cache ]; then
+		# Chek if OS X or Linux distro
+		if [ $1 ]; then
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" storage
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" bootstrap/cache
+		else
+			setfacl -R -m u:${HTTPDUSER}:rwx storage
+			setfacl -R -d -m u:${HTTPDUSER}:rwx storage
+			setfacl -R -m u:${HTTPDUSER}:rwx bootstrap/cache
+			setfacl -R -d -m u:${HTTPDUSER}:rwx bootstrap/cache
+		fi
 		echo "${GREEN}SUCCESS:${RESET} Permissions set."
 		exit 0	
 	else
@@ -73,8 +79,13 @@ set_acl_f3()
 {
 	echo "Setting up permisions for ${GREEN}Fat Free Framework${RESET}..."
 	if [ -d tmp ]; then
-		setfacl -R -m u:${HTTPDUSER}:rwx tmp
-		setfacl -R -d -m u:${HTTPDUSER}:rwx tmp
+		# Chek if OS X or Linux distro
+		if [ $1 ]; then
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" tmp
+		else
+			setfacl -R -m u:${HTTPDUSER}:rwx tmp
+			setfacl -R -d -m u:${HTTPDUSER}:rwx tmp
+		fi
 		echo "${GREEN}SUCCESS:${RESET} Permissions set."
 		exit 0
 	else
@@ -95,10 +106,16 @@ set_acl_cake3()
 {
 	echo "Setting up permisions for ${GREEN}CakePHP 3${RESET}..."
 	if [ -d tmp -a -d logs ]; then
-		setfacl -R -m u:${HTTPDUSER}:rwx tmp
-		setfacl -R -d -m u:${HTTPDUSER}:rwx tmp
-		setfacl -R -m u:${HTTPDUSER}:rwx logs
-		setfacl -R -d -m u:${HTTPDUSER}:rwx logs
+		# Chek if OS X or Linux distro
+		if [ $1 ]; then
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" tmp
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" logs
+		else
+			setfacl -R -m u:${HTTPDUSER}:rwx tmp
+			setfacl -R -d -m u:${HTTPDUSER}:rwx tmp
+			setfacl -R -m u:${HTTPDUSER}:rwx logs
+			setfacl -R -d -m u:${HTTPDUSER}:rwx logs
+		fi
 		echo "${GREEN}SUCCESS:${RESET} Permissions set."
 		exit 0
 	else
@@ -111,8 +128,13 @@ set_acl_wp()
 {
 	echo "Setting up permisions for ${GREEN}Wordpress${RESET}..."
 	if [ -d wp-content ]; then
-		setfacl -R -m u:${HTTPDUSER}:rwx wp-content
-		setfacl -R -d -m u:${HTTPDUSER}:rwx wp-content
+		# Chek if OS X or Linux distro
+		if [ $1 ]; then
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" wp-content
+		else
+			setfacl -R -m u:${HTTPDUSER}:rwx wp-content
+			setfacl -R -d -m u:${HTTPDUSER}:rwx wp-content
+		fi
 		echo "${GREEN}SUCCESS:${RESET} Permissions set."
 		exit 0
 	else
@@ -128,32 +150,46 @@ set_acl_prestashop()
 		[ -d modules -a -d themes/default-bootstrap/lang ] && \
 		[ -d themes/default-bootstrap/pdf/lang -a -d themes/default-bootstrap/cache ] && \
 		[ -d translations -a -d upload -a -d download ]; then
-
-		setfacl -R -m u:${HTTPDUSER}:rwx config
-		setfacl -R -d -m u:${HTTPDUSER}:rwx config
-		setfacl -R -m u:${HTTPDUSER}:rwx cache
-		setfacl -R -d -m u:${HTTPDUSER}:rwx cache
-		setfacl -R -m u:${HTTPDUSER}:rwx log
-		setfacl -R -d -m u:${HTTPDUSER}:rwx log
-		setfacl -R -m u:${HTTPDUSER}:rwx img
-		setfacl -R -d -m u:${HTTPDUSER}:rwx img
-		setfacl -R -m u:${HTTPDUSER}:rwx mails
-		setfacl -R -d -m u:${HTTPDUSER}:rwx mails
-		setfacl -R -m u:${HTTPDUSER}:rwx modules
-		setfacl -R -d -m u:${HTTPDUSER}:rwx modules
-		setfacl -R -m u:${HTTPDUSER}:rwx themes/default-bootstrap/lang
-		setfacl -R -d -m u:${HTTPDUSER}:rwx themes/default-bootstrap/lang
-		setfacl -R -m u:${HTTPDUSER}:rwx themes/default-bootstrap/pdf/lang
-		setfacl -R -d -m u:${HTTPDUSER}:rwx themes/default-bootstrap/pdf/lang
-		setfacl -R -m u:${HTTPDUSER}:rwx themes/default-bootstrap/cache
-		setfacl -R -d -m u:${HTTPDUSER}:rwx themes/default-bootstrap/cache
-		setfacl -R -m u:${HTTPDUSER}:rwx translations
-		setfacl -R -d -m u:${HTTPDUSER}:rwx translations
-		setfacl -R -m u:${HTTPDUSER}:rwx upload
-		setfacl -R -d -m u:${HTTPDUSER}:rwx upload
-		setfacl -R -m u:${HTTPDUSER}:rwx download
-		setfacl -R -d -m u:${HTTPDUSER}:rwx download
-		
+		# Chek if OS X or Linux distro
+		if [ $1 ]; then
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" config
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" cache
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" log
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" img
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" mails
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" modules
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" themes/default-bootstrap/lang
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" themes/default-bootstrap/pdf/lang
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" themes/default-bootstrap/cache
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" translations
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" upload
+			chmod -R +a "group:$HTTPDGROUP allow read,write,append,readattr,writeattr,readextattr,writeextattr" download
+		else
+			setfacl -R -m u:${HTTPDUSER}:rwx config
+			setfacl -R -d -m u:${HTTPDUSER}:rwx config
+			setfacl -R -m u:${HTTPDUSER}:rwx cache
+			setfacl -R -d -m u:${HTTPDUSER}:rwx cache
+			setfacl -R -m u:${HTTPDUSER}:rwx log
+			setfacl -R -d -m u:${HTTPDUSER}:rwx log
+			setfacl -R -m u:${HTTPDUSER}:rwx img
+			setfacl -R -d -m u:${HTTPDUSER}:rwx img
+			setfacl -R -m u:${HTTPDUSER}:rwx mails
+			setfacl -R -d -m u:${HTTPDUSER}:rwx mails
+			setfacl -R -m u:${HTTPDUSER}:rwx modules
+			setfacl -R -d -m u:${HTTPDUSER}:rwx modules
+			setfacl -R -m u:${HTTPDUSER}:rwx themes/default-bootstrap/lang
+			setfacl -R -d -m u:${HTTPDUSER}:rwx themes/default-bootstrap/lang
+			setfacl -R -m u:${HTTPDUSER}:rwx themes/default-bootstrap/pdf/lang
+			setfacl -R -d -m u:${HTTPDUSER}:rwx themes/default-bootstrap/pdf/lang
+			setfacl -R -m u:${HTTPDUSER}:rwx themes/default-bootstrap/cache
+			setfacl -R -d -m u:${HTTPDUSER}:rwx themes/default-bootstrap/cache
+			setfacl -R -m u:${HTTPDUSER}:rwx translations
+			setfacl -R -d -m u:${HTTPDUSER}:rwx translations
+			setfacl -R -m u:${HTTPDUSER}:rwx upload
+			setfacl -R -d -m u:${HTTPDUSER}:rwx upload
+			setfacl -R -m u:${HTTPDUSER}:rwx download
+			setfacl -R -d -m u:${HTTPDUSER}:rwx download
+		fi
 		echo "${GREEN}SUCCESS:${RESET} Permissions set."
 		exit 0
 	else
@@ -172,6 +208,17 @@ else
 	HTTPDUSER=`ps aux | grep -E '[a]pache|[h]ttpd|[_]www|[w]ww-data|[n]ginx' | grep -v root | head -1 | cut -d\  -f1`	
 	echo "HTTPDUSER is ${GREEN}$HTTPDUSER${RESET}"
 
+	#Get current HTTPD group 
+	HTTPDGROUP=`id -Gn $HTTPDUSER | grep -v root | head -1 | cut -d\  -f1`	
+	echo "HTTPDGROUP is ${GREEN}$HTTPDGROUP${RESET}"
+
+	#Check if OS is MacOS or Mac OS X
+	if [ "$(uname -s)" == "Darwin" ]; then
+		ISDARWIN=true
+	else
+		ISDARWIN=false
+	fi
+
 	#Check arguments
 	if [ -z "$1" ]; then
 		echo "${RED}ERROR:${RESET} Bad Usage: You must specifiy the PHP framework/app to set permissions to!" 1>&2
@@ -188,15 +235,15 @@ else
 				-v | --version )	version
 									exit 0
 									;;
-				'laravel5' )		set_acl_laravel5
+				'laravel5' )		set_acl_laravel5 $ISDARWIN
 									;;
-				'f3' )				set_acl_f3
+				'f3' )				set_acl_f3 $ISDARWIN
 									;;
-				'cake3' )			set_acl_cake3
+				'cake3' )			set_acl_cake3 $ISDARWIN
 									;;
-				'wordpress' )		set_acl_wp
+				'wordpress' )		set_acl_wp $ISDARWIN
 									;;
-				'prestashop' )		set_acl_prestashop
+				'prestashop' )		set_acl_prestashop $ISDARWIN
 									;;
 				* )					echo "${RED}ERROR:${RESET} Invalid argument!"
 									usage
